@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom"
-import DefaultLayout from "./components/DefaultLayout"
+import DefaultLayout from "./layouts/DefaultLayout"
 import Home from "./pages/Home"
 import SingleMovie from "./pages/SingleMovie"
 
@@ -12,7 +12,7 @@ function App() {
 
           <Route element={<DefaultLayout />}>
 
-            <Route element={<Home />} />
+            <Route path='/' element={<Home />} />
             <Route element={<SingleMovie />} />
 
           </Route>
