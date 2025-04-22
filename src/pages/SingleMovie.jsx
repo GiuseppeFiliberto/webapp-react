@@ -49,15 +49,14 @@ export default function SingleMovie() {
 
 
         <div className="container">
-          <h3 className="mb-3 fw-bolder">Recensioni</h3>
+          <h3 className="mb-3 fw-bolder">Reviews</h3>
           <div className="row row-cols-1 g-3">
             {(movie.reviews && movie.reviews.length > 0) ? movie.reviews.map((reviews, index) => (
               <div key={`reviews-${index}`} className="col">
                 <div className="card h-100">
                   <div className="card-header d-flex align-items-center justify-content-between gap-2">
                     <div className="user">
-                      <h5 >Username</h5>
-                      <div>{reviews.name}</div>
+                      <div className="fw-bold">{reviews.name}</div>
                     </div>
 
                     <div className="vote">
@@ -92,7 +91,7 @@ export default function SingleMovie() {
             )}
           </div>
 
-          <h3 className="my-5 fw-bolder">Aggiungi una recensione</h3>
+          <h3 className="my-5 fw-bolder">Add a review</h3>
 
           <div className="container mb-5">
             <ReviewForm movieId={id} onReviewAdded={handleReviewAdded} />
