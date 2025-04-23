@@ -3,19 +3,34 @@ import { Link } from "react-router-dom"
 
 export default function Home() {
   const [movies, setMovies] = useState([])
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-    fetch('http://localhost:3006/api/v1/movies')
-
-      .then(res => res.json())
-      .then(data => {
-        setMovies(data)
-      })
-      .catch(err => {
-        console.log(err);
-
-      })
+    setLoading(true)
+    setTimeout(() => {
+      fetch('http://localhost:3006/api/v1/movies')
+        .then(res => res.json())
+        .then(data => {
+          setMovies(data)
+        })
+        .catch(err => {
+          console.log(err);
+        })
+        .finally(() => {
+          setLoading(false)
+        })
+    }, 500)
   }, [])
+
+  if (loading) {
+    return (
+      <div className="d-flex justify-content-center align-items-center" style={{ minHeight: 200 }}>
+        <div className="spinner-border text-primary" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <>
@@ -34,7 +49,7 @@ export default function Home() {
               movies?.map(movie => (
                 <div className="col" key={`movie-${movie.id}`}>
                   <Link to={`/movies/${movie.id}`} style={{ textDecoration: 'none' }} >
-                    <div className="card h-100">
+                    <div className="card h-100 shadow">
                       <div className="card-header h-100">
                         <img className="card-img-top" src={`http://localhost:3006/images/${movie.image}`} alt={movie.title} />
 

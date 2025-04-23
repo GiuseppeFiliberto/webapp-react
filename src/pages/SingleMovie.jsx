@@ -4,14 +4,20 @@ import ReviewForm from "../components/ReviewForm"
 
 export default function SingleMovie() {
   const [movie, setMovie] = useState(null)
+  const [loading, setLoading] = useState(false)
   const { id } = useParams()
 
   useEffect(() => {
-    fetch(`http://localhost:3006/api/v1/movies/${id}`)
-      .then(res => res.json())
-      .then(data => {
-        setMovie(data)
-      })
+    setLoading(true)
+    setMovie(null) // Reset per mostrare il loader
+    setTimeout(() => {
+      fetch(`http://localhost:3006/api/v1/movies/${id}`)
+        .then(res => res.json())
+        .then(data => {
+          setMovie(data)
+        })
+        .finally(() => setLoading(false))
+    }, 500) // Ritardo di 500ms
   }, [id])
 
   const handleReviewAdded = (newReview) => {
@@ -21,9 +27,16 @@ export default function SingleMovie() {
     }))
   }
 
-  if (!movie) {
-    return <p>Wait for this movie to be loaded</p>
+  if (loading || !movie) {
+    return (
+      <div className="d-flex justify-content-center align-items-center" style={{ minHeight: 200 }}>
+        <div className="spinner-border text-primary" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    )
   }
+
   return (
     <>
       <main>
